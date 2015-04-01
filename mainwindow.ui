@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
-    <height>404</height>
+    <width>1025</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item row="0" column="1">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page">
        <widget class="QWidget" name="widget" native="true">
@@ -26,8 +26,8 @@
          <rect>
           <x>0</x>
           <y>5</y>
-          <width>641</width>
-          <height>311</height>
+          <width>1011</width>
+          <height>361</height>
          </rect>
         </property>
         <widget class="QWidget" name="gridLayoutWidget">
@@ -35,19 +35,19 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>641</width>
-           <height>311</height>
+           <width>1001</width>
+           <height>361</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="2" column="0" colspan="4">
+          <item row="2" column="0" colspan="2">
            <widget class="Line" name="line">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="4">
+          <item row="3" column="0" colspan="2">
            <widget class="QLabel" name="label_3">
             <property name="maximumSize">
              <size>
@@ -66,10 +66,10 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
+          <item row="1" column="1">
            <widget class="QLineEdit" name="CDQuery"/>
           </item>
-          <item row="7" column="0" colspan="4">
+          <item row="7" column="0" colspan="2">
            <widget class="QLabel" name="L_MovieDetails">
             <property name="text">
              <string>Movie Details</string>
@@ -86,14 +86,14 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0" colspan="4">
+          <item row="6" column="0" colspan="2">
            <widget class="Line" name="line_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="4" column="0" colspan="4">
+          <item row="4" column="0" colspan="2">
            <widget class="QListWidget" name="MatchedMovies">
             <property name="minimumSize">
              <size>
@@ -103,37 +103,53 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
-           <widget class="QLabel" name="L_CDNumber">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>CD Number:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="CDNumber">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Number</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1" rowspan="2" colspan="3">
-           <widget class="QListWidget" name="MovieDetails">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
+          <item row="8" column="0" colspan="2">
+           <widget class="QTableWidget" name="tableWidget">
+            <column>
+             <property name="text">
+              <string>Record ID</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>CD Number</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Movie Name</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Movie Year</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Director</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Category</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Video Resolution</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Language</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Video Format</string>
+             </property>
+            </column>
            </widget>
           </item>
          </layout>
@@ -146,8 +162,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>641</width>
-          <height>311</height>
+          <width>901</width>
+          <height>371</height>
          </rect>
         </property>
         <widget class="QWidget" name="gridLayoutWidget_2">
@@ -155,8 +171,8 @@
           <rect>
            <x>-1</x>
            <y>-1</y>
-           <width>641</width>
-           <height>311</height>
+           <width>901</width>
+           <height>371</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
@@ -273,8 +289,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>665</width>
-     <height>24</height>
+     <width>1025</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
