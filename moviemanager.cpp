@@ -102,11 +102,11 @@ int MovieManager::OutputMovieBufferToStandardOutput(){
         std::string CDNumber =   QString::number( moviesToAdd[i].ReturnCDNumber()  ).toUtf8().constData();
         std::string MovieYear =  QString::number( moviesToAdd[i].ReturnMovieYear() ).toUtf8().constData(); // + " " + movieName
 
-        std::string Director = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
-        std::string Category = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
-        std::string VideoResolution = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
-        std::string Language = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
-        std::string videoFormat = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+        std::string Director = moviesToAdd[i].ReturnDirector().toUtf8().constData();
+        std::string Category = moviesToAdd[i].ReturnCategory().toUtf8().constData();
+        std::string VideoResolution = moviesToAdd[i].ReturnVideoResolution().toUtf8().constData();
+        std::string Language = moviesToAdd[i].ReturnLanguage().toUtf8().constData();
+        std::string videoFormat = moviesToAdd[i].ReturnVideoFormat().toUtf8().constData();
         std::cout << "Movies in buffer: " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
                     + " " + Language + " " + videoFormat
                   << std::endl;

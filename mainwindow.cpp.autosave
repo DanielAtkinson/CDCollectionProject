@@ -179,7 +179,7 @@ void MainWindow::on_AddCD_clicked()
 void MainWindow::on_MovieListToAdd_itemClicked(QListWidgetItem *item)
 {//item->text().toUtf8().constData()
     ui->MovieListToAdd->takeItem(ui->MovieListToAdd->row(item));
-
+    movieManager.RemoveMovieFromMovieBuffer(item->)
     //Find the Movie and remove it from the movie buffer
     //ui->statusBar->showMessage("Movie:" + item->text().toUtf8() + "has been removed");//Remind the user that stuff is happening
 
