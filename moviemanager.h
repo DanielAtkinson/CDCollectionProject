@@ -16,7 +16,8 @@ public:
     MovieManager();
 
     int AddMovieToMovieBuffer(Movie movieToAdd);
-    int AddMovieToDatabase(QSqlDatabase db,Movie incomingMovie);
+    int AddMovieToDatabase(Movie incomingMovie);
+    int FlushMovieBufferToMovieDatabase(int cDNumber);
 
     int RemoveMovieFromMovieBuffer(Movie movieToRemove);
     int RemoveMovieFromMovieDatabase(Movie movieToRemove);
@@ -24,7 +25,10 @@ public:
 
     int FindIfMovieHasAlreadyBeenAdded(QString movieName,QSqlDatabase db);
     QSqlQuery ReturnMoviesInDatabase();
+
+    int OutputMovieBufferToStandardOutput();
     int OutputDatabaseMoviesToStandardOutput(QSqlQuery query);
+
     int ListMoviesInDatabase();
 
 };

@@ -44,28 +44,24 @@ int MovieManager::RemoveMovieFromMovieDatabase(Movie movieToRemove){
    return -1;
 
 }
+int MovieManager::FlushMovieBufferToMovieDatabase(int cDNumber){
 
 
 
-int MovieManager::AddMovieToDatabase(QSqlDatabase db,Movie incomingMovie){
+    for(unsigned int i = 0;i < moviesToAdd.size();i++){//
+        moviesToAdd[i].SetCDNumber(cDNumber);
+        AddMovieToDatabase(moviesToAdd[i]);
+    }
 
-    int Number;       // number to be converted to a string
-    std::string CDNumber;  // string which will contain the result
-    std::string movieYear;
+    return 0;
+}
 
-    std::ostringstream convert;   // stream used for the conversion
 
-    convert << incomingMovie.ReturnCDNumber();      // insert the textual representation of 'Number' in the characters in the stream
-    CDNumber = convert.str();
-
-    convert << incomingMovie.ReturnMovieYear();
-    movieYear = convert.str();
-
+int MovieManager::AddMovieToDatabase(Movie incomingMovie){
 
     QSqlQuery query;
     QString test = "INSERT INTO Movies (MovieName,CDNumber,MovieYear,Director,Category,VideoResolution,Language,VideoFormat) VALUES ('" + incomingMovie.ReturnMovieName().toUtf8() +"'," + QString::number(incomingMovie.ReturnCDNumber()).toUtf8() +"," + QString::number(incomingMovie.ReturnMovieYear()).toUtf8() +",'" + incomingMovie.ReturnDirector().toUtf8() +"','" + incomingMovie.ReturnCategory().toUtf8() +"','" + incomingMovie.ReturnVideoResolution().toUtf8() +"','" + incomingMovie.ReturnLanguage().toUtf8() +"','" + incomingMovie.ReturnVideoFormat().toUtf8() +"')";
     bool one = query.exec(test);
-
     if(!one){
         //query.lastError();
         query.lastError().text();
@@ -99,6 +95,23 @@ QSqlQuery MovieManager::ReturnMoviesInDatabase(){
     query.exec("SELECT * FROM Movies");
     return query;
 }
+int MovieManager::OutputMovieBufferToStandardOutput(){
+    for(unsigned int i = 0;i < moviesToAdd.size();i++){
+        std::string movieName = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+
+        std::string CDNumber =   QString::number( moviesToAdd[i].ReturnCDNumber()  ).toUtf8().constData();
+        std::string MovieYear =  QString::number( moviesToAdd[i].ReturnMovieYear() ).toUtf8().constData(); // + " " + movieName
+
+        std::string Director = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+        std::string Category = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+        std::string VideoResolution = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+        std::string Language = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+        std::string videoFormat = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
+        std::cout << "Movies in buffer: " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
+                    + " " + Language + " " + videoFormat
+                  << std::endl;
+    }
+}
 
 int MovieManager::OutputDatabaseMoviesToStandardOutput(QSqlQuery query){
    /*
@@ -113,13 +126,15 @@ int MovieManager::OutputDatabaseMoviesToStandardOutput(QSqlQuery query){
         std::string  ID = query.value(0).toString().toUtf8().constData();
         std::string movieName = query.value(1).toString().toUtf8().constData();
         std::string CDNumber = query.value(2).toString().toUtf8().constData();
-        std::string  MovieYear = query.value(3).toString().toUtf8().constData();
+        std::string  MovieYear = query.value(3).toString().toUtf8().constData(); // + " " + movieName
         std::string Director = query.value(4).toString().toUtf8().constData();
         std::string Category = query.value(5).toString().toUtf8().constData();
         std::string  VideoResolution = query.value(6).toString().toUtf8().constData();
         std::string Language = query.value(7).toString().toUtf8().constData();
         std::string videoFormat = query.value(7).toString().toUtf8().constData();
-        std::cout << "Movie: " + ID + " " + movie << std::endl;
+        std::cout << "Movies in database : " + ID + " " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
+                    + " " + Language + " " + videoFormat
+                  << std::endl;
     }
      std::cout << "-------------------------------------------"<< std::endl;
     return 0;

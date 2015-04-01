@@ -15,24 +15,8 @@ Movie::Movie(QString incomingMovieName,
 
     movieName = incomingMovieName;
 
-    QSqlQuery query;
-    //SELECT MAX(article) AS article FROM shop;
-    bool one = query.exec("SELECT MAX(CDNumber) AS CDNumber FROM Movies");
 
-    if(!one){
-        //query.lastError();
-        query.lastError().text();
-        QString tmp = query.lastError().text();
-         std::cout << tmp.toUtf8().constData() << std::endl;
-    }
-    else{
-        if(query.next()){
-            std::cout << query.value(0).toString().toUtf8().constData() << std::endl;
-            cDNumber = query.value(0).toInt();
-
-        }
-
-    }
+    cDNumber = 0;
 
     movieYear = incomingMovieYear;
     director = incomingDirector;

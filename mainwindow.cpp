@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
             }
             else{
                 Movie newMovie("HuntForRedOctober",1980,"Daniel Atkinson","Drama","1080","English","mp4");
-                movieManager.AddMovieToDatabase(db,newMovie);
+                movieManager.AddMovieToDatabase(newMovie);
                 QSqlQuery placeHolder = movieManager.ReturnMoviesInDatabase();
                 movieManager.OutputDatabaseMoviesToStandardOutput(placeHolder);
 
@@ -121,13 +121,16 @@ void MainWindow::on_AddMovieToCD_clicked()
 
     ui->MovieListToAdd->addItem(ui->TB_MovieName->text());
     Movie newMovie(
+
                 ui->TB_MovieName->text(),
                 ui->TB_MovieYear->text().toInt(),
                 ui->TB_Director->text(),
                 ui->TB_Category->text(),
                 ui->TB_MovieVideoQuality->text(),
                 ui->TB_MovieLang->text(),
-                ui->TB_VidFormat->text());
+                ui->TB_VidFormat->text()
+
+                );
 
     movieManager.AddMovieToMovieBuffer(newMovie);
     ui->statusBar->showMessage("Movie:" + ui->TB_MovieName->text().toUtf8() +" has been Added");
@@ -135,8 +138,36 @@ void MainWindow::on_AddMovieToCD_clicked()
 
 void MainWindow::on_AddCD_clicked()
 {
+    QSqlQuery query;
+    int cDNumber = 0;
+
+    bool one = query.exec("SELECT MAX(CDNumber) AS CDNumber FROM Movies");
+
+    if(!one){
+        //query.lastError();
+        query.lastError().text();
+        QString tmp = query.lastError().text();
+         std::cout << tmp.toUtf8().constData() << std::endl;
+    }
+    else{
+        if(query.next()){
+            std::cout << query.value(0).toString().toUtf8().constData() << std::endl;
+            cDNumber = query.value(0).toInt();
+
+        }
+    }
+
+    movieManager.FlushMovieBufferToMovieDatabase(cDNumber);
 
 
+
+    Movie newMovie("HuntForRedOctober",1980,"Daniel Atkinson","Drama","1080","English","mp4");
+    movieManager.AddMovieToDatabase(newMovie);
+
+
+
+    QSqlQuery placeHolder = movieManager.ReturnMoviesInDatabase();
+    movieManager.OutputDatabaseMoviesToStandardOutput(placeHolder);
 }
 /* Function to remove items from the movie buffer
  *
