@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QSqlQuery query;
 
     //Setup menu actions to trigger layout changes
-    connect(ui->actionAdd_CD_Record, SIGNAL( triggered() ) , this, SLOT( AddMovieAndCD())  );
-    connect(ui->actionFind_CD, SIGNAL( triggered() ) , this, SLOT( FindCD())  );
+    connect(ui->actionFind_CD, SIGNAL( triggered() ) , this, SLOT( ChangePageToFindCDPage())  );
+    connect(ui->actionAdd_CD_Record, SIGNAL( triggered() ) , this, SLOT( ChangePageToAddMovieAndCDPage())  );
 
     bool ko = query.exec("CREATE TABLE Movies("
                          "MovieID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"

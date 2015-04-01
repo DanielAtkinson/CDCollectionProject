@@ -4,6 +4,18 @@
 #include <QVariant>
 #include <iostream>
 
+/**
+ * @brief Movie::Movie
+ * @param incomingMovieName
+ * @param incomingMovieYear
+ * @param incomingDirector
+ * @param incomingCategory
+ * @param incomingVideoResolution
+ * @param incomingLanguage
+ * @param incomingVideoFormat
+ *
+ * Constructor sets all members.
+ */
 Movie::Movie(QString incomingMovieName,
              int incomingMovieYear,
              QString incomingDirector,
