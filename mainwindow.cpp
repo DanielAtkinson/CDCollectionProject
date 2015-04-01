@@ -132,7 +132,7 @@ void MainWindow::ChangePageToAddMovieAndCDPage()
 void MainWindow::on_AddMovieToCD_clicked()
 {
     //Check to see if movie have already been added.
-    if(movieManager.FindIfMovieHasAlreadyBeenAdded(ui->TB_MovieName->text(),db) < 0){
+    if(movieManager.FindIfMovieHasAlreadyBeenAdded(ui->TB_MovieName->text()) < 0){
         ui->statusBar->showMessage("Movie:" + ui->TB_MovieName->text().toUtf8() +" has been already Added");
         return;
     }
