@@ -89,6 +89,17 @@ int MovieManager::FindIfMovieHasAlreadyBeenAdded(QString movieName,QSqlDatabase 
 
     return 0;
 }
+Movie * MovieManager::FindMovieInMovieBuffer(QString movieName){
+    for(unsigned int i = 0;i < moviesToAdd.size();i++){
+
+        if(moviesToAdd[i].ReturnMovieName() == movieName){
+            Movie * returnMovie = &moviesToAdd[i];
+            return returnMovie;
+        }
+
+    }
+    return NULL;
+}
 
 QSqlQuery MovieManager::ReturnMoviesInDatabase(){
     QSqlQuery query;
@@ -96,6 +107,7 @@ QSqlQuery MovieManager::ReturnMoviesInDatabase(){
     return query;
 }
 int MovieManager::OutputMovieBufferToStandardOutput(){
+    std::cout << "-------------------------------------------"<< std::endl;
     for(unsigned int i = 0;i < moviesToAdd.size();i++){
         std::string movieName = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
 
@@ -111,6 +123,7 @@ int MovieManager::OutputMovieBufferToStandardOutput(){
                     + " " + Language + " " + videoFormat
                   << std::endl;
     }
+    std::cout << "-------------------------------------------"<< std::endl;
 }
 
 int MovieManager::OutputDatabaseMoviesToStandardOutput(QSqlQuery query){

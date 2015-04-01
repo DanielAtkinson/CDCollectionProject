@@ -24,6 +24,7 @@ public:
 
 
     int FindIfMovieHasAlreadyBeenAdded(QString movieName,QSqlDatabase db);
+    Movie * FindMovieInMovieBuffer(QString movieName);
     QSqlQuery ReturnMoviesInDatabase();
 
     int OutputMovieBufferToStandardOutput();

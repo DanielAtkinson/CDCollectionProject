@@ -37,9 +37,11 @@ private:
     int CheckIfMovieHasBeenAlreadyAdded(QString);
 
 private slots:
-    void FindCD();
-    void AddMovieAndCD();
+    //Pages
+    void ChangePageToFindCDPage();
+    void ChangePageToAddMovieAndCDPage();
 
+    //Add Movie(s) to Database page events
     void on_AddMovieToCD_clicked();
     void on_AddCD_clicked();
     void on_MovieListToAdd_itemClicked(QListWidgetItem *item);
