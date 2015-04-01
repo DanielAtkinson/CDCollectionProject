@@ -24,12 +24,12 @@
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="4">
-         <widget class="QRadioButton" name="radioButton_2">
+         <widget class="QRadioButton" name="RadioB_FindMovieByCDNumber">
           <property name="text">
            <string>List Movies By CD</string>
           </property>
@@ -50,9 +50,12 @@
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="RadioB_FindMovieByName">
           <property name="text">
            <string>Find Movie By Name</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -128,6 +131,13 @@
       </widget>
       <widget class="QWidget" name="page_2">
        <layout class="QGridLayout" name="gridLayout_4">
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>CD Number:</string>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
@@ -159,18 +169,18 @@
           </property>
          </widget>
         </item>
+        <item row="7" column="2">
+         <widget class="QLineEdit" name="TB_VidFormat"/>
+        </item>
+        <item row="6" column="2">
+         <widget class="QLineEdit" name="TB_MovieLang"/>
+        </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Catagory:</string>
           </property>
          </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QLineEdit" name="TB_MovieLang"/>
-        </item>
-        <item row="7" column="2">
-         <widget class="QLineEdit" name="TB_VidFormat"/>
         </item>
         <item row="3" column="2">
          <widget class="QLineEdit" name="TB_Director"/>
@@ -198,13 +208,6 @@
         <item row="1" column="2">
          <widget class="QLineEdit" name="TB_MovieName"/>
         </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>Video Format</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="4" rowspan="11">
          <widget class="QListWidget" name="MovieListToAdd">
           <property name="minimumSize">
@@ -221,8 +224,32 @@
           </property>
          </widget>
         </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Video Format</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="Label_CDDisplay">
+          <property name="text">
+           <string>----</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="BUTTON_FlushMoviesToDatabase">
+      <property name="text">
+       <string>Add Movies To Database</string>
+      </property>
      </widget>
     </item>
    </layout>

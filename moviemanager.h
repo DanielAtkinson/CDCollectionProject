@@ -21,7 +21,7 @@ public:
 
     int RemoveMovieFromMovieBuffer(Movie movieToRemove);
     int RemoveMovieFromMovieDatabase(Movie movieToRemove);
-
+    int ClearAllMoviesFromMovieBuffer();
 
     int FindIfMovieHasAlreadyBeenAdded(QString movieName);
     Movie * FindMovieInMovieBuffer(QString movieName);

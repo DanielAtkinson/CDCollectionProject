@@ -45,7 +45,7 @@ private slots:
 
     //Add Movie(s) to Database page events
     void on_AddMovieToCD_clicked();
-    void on_AddCD_clicked();
+    void FlushMovieBufferToDatabase();
     void on_MovieListToAdd_itemClicked(QListWidgetItem *item);
 };
 

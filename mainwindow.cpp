@@ -42,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAdd_CD_Record, SIGNAL( triggered() ) , this, SLOT( ChangePageToAddMovieAndCDPage())  );
 
     connect(ui->CDQuery, SIGNAL( textEdited(const QString &) ) , this, SLOT( TEST_BUTTON(QString) ));
+    connect(ui->BUTTON_FlushMoviesToDatabase, SIGNAL( clicked() ) , this, SLOT( FlushMovieBufferToDatabase() ));
+
+    //BUTTON_FlushMoviesToDatabase
 
     bool ko = query.exec("CREATE TABLE Movies("
                          "MovieID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
@@ -82,7 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
             }
             //ui->tableWidget->rowCount()
 
-
+            ui->tableWidget->setColumnWidth(1,300);
+            ui->tableWidget->setColumnWidth(4,200);
 
 
             movieManager.OutputDatabaseMoviesToStandardOutput(movieManager.ReturnMoviesInDatabase());
@@ -127,6 +131,7 @@ void MainWindow::ChangePageToFindCDPage()
  */
 void MainWindow::ChangePageToAddMovieAndCDPage()
 {
+    ui->Label_CDDisplay->setText("----");
     ui->stackedWidget->setCurrentIndex(1);
 }
 void MainWindow::TEST_BUTTON(QString text)
@@ -135,15 +140,22 @@ void MainWindow::TEST_BUTTON(QString text)
     QSqlQuery query;
     bool one;
     unsigned int currentRow = 0;
-    ui->tableWidget->setColumnWidth(1,300);
-    ui->tableWidget->setColumnWidth(4,200);
+
+    ui->tableWidget->setRowCount(0);
+
+    QString queryString;
+    if(ui->RadioB_FindMovieByName->isChecked()){
+        queryString = "SELECT * FROM Movies WHERE MovieName LIKE '%" + text.toUtf8() + "%'";
+    }
+    else if(ui->RadioB_FindMovieByCDNumber->isChecked()){
+        queryString = "SELECT * FROM Movies WHERE CDNumber LIKE '%" + text.toUtf8() + "%'";
+    }
+    else{
+        return;
+    }
 
 
 
-    ui->tableWidget->clear();
-
-
-    QString queryString = "SELECT * FROM Movies WHERE MovieName LIKE '%" + text.toUtf8() + "%'";
     one = query.exec(queryString);
     if(!one){
         //query.lastError();
@@ -209,9 +221,9 @@ void MainWindow::on_AddMovieToCD_clicked()
  *
  * Find the highest CD number in the database then add one to it.
  * This will be the next CD number. This will be added to each Movie(s)
- * then added to the database.
+ * in the movie buffer will be added to the database.
  */
-void MainWindow::on_AddCD_clicked()
+void MainWindow::FlushMovieBufferToDatabase()
 {
     QSqlQuery query;
 
@@ -233,9 +245,16 @@ void MainWindow::on_AddCD_clicked()
 
     movieManager.FlushMovieBufferToMovieDatabase(cDNumber);
 
+    movieManager.ClearAllMoviesFromMovieBuffer();
+
+
     movieManager.OutputDatabaseMoviesToStandardOutput(
                     movieManager.ReturnMoviesInDatabase()
                 );
+    movieManager.OutputMovieBufferToStandardOutput();
+
+
+    ui->Label_CDDisplay->setText(QString::number(cDNumber));
 }
 /**
  * @brief Removes needed item

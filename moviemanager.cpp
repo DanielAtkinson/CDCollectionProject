@@ -221,3 +221,7 @@ void MovieManager::OutputDatabaseMoviesToStandardOutput(QSqlQuery query){
      std::cout << "-------------------------------------------"<< std::endl;
 }
 
+int MovieManager::ClearAllMoviesFromMovieBuffer(){
+    moviesToAdd.clear();
+}
+
