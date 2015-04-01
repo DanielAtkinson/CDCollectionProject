@@ -78,6 +78,29 @@ MainWindow::MainWindow(QWidget *parent) :
                 "VALUES ('Jack')");
 */
             }
+            //ui->tableWidget->rowCount()
+            unsigned int currentRow = 0;
+
+            ui->tableWidget->setColumnWidth(1,300);
+            ui->tableWidget->setColumnWidth(4,200);
+
+
+            query = movieManager.ReturnMoviesInDatabase();
+            while(query.next()){
+                    ui->tableWidget->insertRow(currentRow);
+
+
+                    for(int i = 0;i <= 9; i++){
+                        QTableWidgetItem * item = new QTableWidgetItem;
+                        item->setText(query.value(i).toString().toUtf8().constData());
+                        ui->tableWidget->setItem(currentRow,i,item);
+                    }
+
+                    currentRow++;
+            }
+
+
+
             movieManager.OutputDatabaseMoviesToStandardOutput(movieManager.ReturnMoviesInDatabase());
 
 
