@@ -33,6 +33,7 @@ private:
     Ui::MainWindow *ui;
     MovieManager movieManager;
     QSqlDatabase db;
+    QString MovieQuery;
 
     int CheckIfMovieHasBeenAlreadyAdded(QString);
 
@@ -40,6 +41,7 @@ private slots:
     //Pages
     void ChangePageToFindCDPage();
     void ChangePageToAddMovieAndCDPage();
+    void TEST_BUTTON(QString text);
 
     //Add Movie(s) to Database page events
     void on_AddMovieToCD_clicked();

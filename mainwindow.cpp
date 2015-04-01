@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QLabel>
 #include <QString>
-
+#include <QLineEdit>
 
 #include <iostream>
 #include <string>
@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Setup menu actions to trigger layout changes
     connect(ui->actionFind_CD, SIGNAL( triggered() ) , this, SLOT( ChangePageToFindCDPage())  );
     connect(ui->actionAdd_CD_Record, SIGNAL( triggered() ) , this, SLOT( ChangePageToAddMovieAndCDPage())  );
+
+    connect(ui->CDQuery, SIGNAL( textEdited(const QString &) ) , this, SLOT( TEST_BUTTON(QString) ));
 
     bool ko = query.exec("CREATE TABLE Movies("
                          "MovieID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
@@ -79,32 +81,14 @@ MainWindow::MainWindow(QWidget *parent) :
 */
             }
             //ui->tableWidget->rowCount()
-            unsigned int currentRow = 0;
 
-            ui->tableWidget->setColumnWidth(1,300);
-            ui->tableWidget->setColumnWidth(4,200);
-
-
-            query = movieManager.ReturnMoviesInDatabase();
-            while(query.next()){
-                    ui->tableWidget->insertRow(currentRow);
-
-
-                    for(int i = 0;i <= 9; i++){
-                        QTableWidgetItem * item = new QTableWidgetItem;
-                        item->setText(query.value(i).toString().toUtf8().constData());
-                        ui->tableWidget->setItem(currentRow,i,item);
-                    }
-
-                    currentRow++;
-            }
 
 
 
             movieManager.OutputDatabaseMoviesToStandardOutput(movieManager.ReturnMoviesInDatabase());
-
-
-
+        //ui->MatchedMovies
+        //
+        //
 
 
 
@@ -145,6 +129,44 @@ void MainWindow::ChangePageToAddMovieAndCDPage()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
+void MainWindow::TEST_BUTTON(QString text)
+{
+
+    QSqlQuery query;
+    bool one;
+    unsigned int currentRow = 0;
+    ui->tableWidget->setColumnWidth(1,300);
+    ui->tableWidget->setColumnWidth(4,200);
+
+
+
+    ui->tableWidget->clear();
+
+
+    QString queryString = "SELECT * FROM Movies WHERE MovieName LIKE '%" + text.toUtf8() + "%'";
+    one = query.exec(queryString);
+    if(!one){
+        //query.lastError();
+        query.lastError().text();
+        QString tmp = query.lastError().text();
+        std::cout << tmp.toUtf8().constData() << std::endl;
+        return;
+    }
+
+    while(query.next()){
+        ui->tableWidget->insertRow(currentRow);
+        for(int i = 0;i <= 9; i++){
+            QTableWidgetItem * item = new QTableWidgetItem;
+            item->setText(query.value(i).toString().toUtf8().constData());
+            ui->tableWidget->setItem(currentRow,i,item);
+
+        }
+        currentRow++;
+    }
+
+    //
+}
+
 
 /**
  * @brief Add a collection of movies to a CD

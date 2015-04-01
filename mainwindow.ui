@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1400</width>
-    <height>608</height>
+    <width>1343</width>
+    <height>614</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -21,7 +21,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -75,7 +75,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0" colspan="5">
+        <item row="4" column="0" colspan="5">
          <widget class="QTableWidget" name="tableWidget">
           <column>
            <property name="text">
@@ -124,141 +124,104 @@
           </column>
          </widget>
         </item>
-        <item row="3" column="0" colspan="5">
-         <widget class="QListWidget" name="MatchedMovies">
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Director:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLineEdit" name="TB_MovieYear"/>
+        </item>
+        <item row="11" column="0" colspan="3">
+         <widget class="QPushButton" name="AddMovieToCD">
+          <property name="text">
+           <string>Add Movie to CD</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Year of Release:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Language</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Catagory:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QLineEdit" name="TB_MovieLang"/>
+        </item>
+        <item row="7" column="2">
+         <widget class="QLineEdit" name="TB_VidFormat"/>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLineEdit" name="TB_Director"/>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLineEdit" name="TB_MovieVideoQuality"/>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLineEdit" name="TB_Category"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Video Resolution:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Movie Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="TB_MovieName"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Video Format</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4" rowspan="11">
+         <widget class="QListWidget" name="MovieListToAdd">
           <property name="minimumSize">
            <size>
-            <width>300</width>
+            <width>520</width>
             <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>16777215</height>
            </size>
           </property>
          </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="page_2">
-       <widget class="QWidget" name="widget_2" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>901</width>
-          <height>371</height>
-         </rect>
-        </property>
-        <widget class="QWidget" name="gridLayoutWidget_2">
-         <property name="geometry">
-          <rect>
-           <x>-1</x>
-           <y>-1</y>
-           <width>901</width>
-           <height>371</height>
-          </rect>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="5" column="2">
-           <widget class="QLineEdit" name="TB_MovieLang"/>
-          </item>
-          <item row="6" column="2">
-           <widget class="QLineEdit" name="TB_VidFormat"/>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLineEdit" name="TB_MovieVideoQuality"/>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Catagory</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0" colspan="4">
-           <widget class="QPushButton" name="AddCD">
-            <property name="text">
-             <string>Add CD</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>Video Format</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLineEdit" name="TB_MovieName"/>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLineEdit" name="TB_MovieYear"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Director</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>Language</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Video Quality</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Name</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLineEdit" name="TB_Category"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Year</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLineEdit" name="TB_Director"/>
-          </item>
-          <item row="0" column="3" rowspan="8">
-           <widget class="QListWidget" name="MovieListToAdd">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>250</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0" colspan="3">
-           <widget class="QPushButton" name="AddMovieToCD">
-            <property name="text">
-             <string>Add Movie to CD</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
       </widget>
      </widget>
     </item>
@@ -269,7 +232,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1400</width>
+     <width>1343</width>
      <height>25</height>
     </rect>
    </property>
@@ -280,6 +243,7 @@
     <addaction name="actionAdd_CD_Record"/>
     <addaction name="actionRemove_CD_Record"/>
     <addaction name="actionFind_CD"/>
+    <addaction name="actionTEST_BUTTON"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -305,6 +269,11 @@
   <action name="actionFind_CD">
    <property name="text">
     <string>Find CD</string>
+   </property>
+  </action>
+  <action name="actionTEST_BUTTON">
+   <property name="text">
+    <string>TEST BUTTON</string>
    </property>
   </action>
  </widget>
