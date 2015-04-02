@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1343</width>
+    <width>1024</width>
     <height>614</height>
    </rect>
   </property>
@@ -21,6 +21,13 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="0">
+     <widget class="QPushButton" name="BUTTON_FlushMoviesToDatabase">
+      <property name="text">
+       <string>Add Movies To Database</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
@@ -131,13 +138,6 @@
       </widget>
       <widget class="QWidget" name="page_2">
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>CD Number:</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
@@ -145,20 +145,10 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLineEdit" name="TB_MovieYear"/>
-        </item>
-        <item row="11" column="0" colspan="3">
-         <widget class="QPushButton" name="AddMovieToCD">
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>Add Movie to CD</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Year of Release:</string>
+           <string>Catagory:</string>
           </property>
          </widget>
         </item>
@@ -169,58 +159,10 @@
           </property>
          </widget>
         </item>
-        <item row="7" column="2">
-         <widget class="QLineEdit" name="TB_VidFormat"/>
-        </item>
-        <item row="6" column="2">
-         <widget class="QLineEdit" name="TB_MovieLang"/>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_7">
+        <item row="15" column="0" colspan="2">
+         <widget class="QPushButton" name="AddMovieToCD">
           <property name="text">
-           <string>Catagory:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLineEdit" name="TB_Director"/>
-        </item>
-        <item row="5" column="2">
-         <widget class="QLineEdit" name="TB_MovieVideoQuality"/>
-        </item>
-        <item row="4" column="2">
-         <widget class="QLineEdit" name="TB_Category"/>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Video Resolution:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Movie Name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="TB_MovieName"/>
-        </item>
-        <item row="1" column="4" rowspan="11">
-         <widget class="QListWidget" name="MovieListToAdd">
-          <property name="minimumSize">
-           <size>
-            <width>520</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>250</width>
-            <height>16777215</height>
-           </size>
+           <string>Add Movie to CD</string>
           </property>
          </widget>
         </item>
@@ -231,7 +173,96 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="2">
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="TB_MovieName"/>
+        </item>
+        <item row="12" column="0" colspan="3">
+         <widget class="QStackedWidget" name="stackedWidget_3">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page_7">
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Season Episodes Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Episode Name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" rowspan="2">
+             <widget class="QListWidget" name="listWidget"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_8"/>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="TB_MovieLang"/>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="TB_Category"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Year of Release:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Movie Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="TB_Director"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="TB_MovieYear"/>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>CD Number:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Video Resolution:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="1">
+         <widget class="QRadioButton" name="radioButton_2">
+          <property name="text">
+           <string>Add Season</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="TB_MovieVideoQuality"/>
+        </item>
+        <item row="14" column="0">
+         <widget class="QRadioButton" name="radioButton">
+          <property name="text">
+           <string>Add Movie</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
          <widget class="QLabel" name="Label_CDDisplay">
           <property name="text">
            <string>----</string>
@@ -241,15 +272,39 @@
           </property>
          </widget>
         </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="TB_VidFormat"/>
+        </item>
+        <item row="1" column="2" rowspan="8">
+         <widget class="QStackedWidget" name="stackedWidget_2">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page_5">
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QListWidget" name="MovieListToAdd">
+              <property name="minimumSize">
+               <size>
+                <width>520</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>250</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_6"/>
+         </widget>
+        </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="BUTTON_FlushMoviesToDatabase">
-      <property name="text">
-       <string>Add Movies To Database</string>
-      </property>
      </widget>
     </item>
    </layout>
@@ -259,7 +314,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1343</width>
+     <width>1024</width>
      <height>25</height>
     </rect>
    </property>
