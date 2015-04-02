@@ -123,8 +123,30 @@ void MainWindow::on_pushButton_5_clicked()
  * @brief FindCDPage Changer
  */
 void MainWindow::ChangePageToFindCDPage()
-{
+{  
     ui->stackedWidget->setCurrentIndex(0);
+
+    QSqlQuery query;
+    int currentRow = 0;
+    bool one = query.exec("SELECT * FROM Movies");
+    if(!one){
+        //query.lastError();
+        query.lastError().text();
+        QString tmp = query.lastError().text();
+        std::cout << tmp.toUtf8().constData() << std::endl;
+        return;
+    }
+
+    while(query.next()){
+        ui->tableWidget->insertRow(currentRow);
+        for(int i = 0;i <= 9; i++){
+            QTableWidgetItem * item = new QTableWidgetItem;
+            item->setText(query.value(i).toString().toUtf8().constData());
+            ui->tableWidget->setItem(currentRow,i,item);
+
+        }
+        currentRow++;
+    }
 }
 /**
  * @brief MovieAndCDPage Changer
