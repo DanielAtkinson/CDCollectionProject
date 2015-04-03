@@ -1,4 +1,4 @@
-#include "moviemanager.h"
+
 #include <QSqlQuery>
 #include <QVariant>
 #include <QSqlError>
@@ -7,8 +7,13 @@
 #include <string>
 #include <sstream>
 
-MovieManager::MovieManager()
+#include "dbmanager.h"
+#include "moviemanager.h"
+#include "movie.h"
+
+MovieManager::MovieManager(DBmanager * databaseBeingUsed)
 {
+    db = databaseBeingUsed;
     moviesToAdd.reserve(10);
 }
 
@@ -33,13 +38,9 @@ int MovieManager::AddMovieToMovieBuffer(Movie movieToAdd){
 int MovieManager::AddMovieToDatabase(Movie incomingMovie){
 
     QSqlQuery query;
-    QString test = "INSERT INTO Movies (MovieName,CDNumber,MovieYear,Director,Category,VideoResolution,Language,VideoFormat) VALUES ('" + incomingMovie.ReturnMovieName().toUtf8() +"'," + QString::number(incomingMovie.ReturnCDNumber()).toUtf8() +"," + QString::number(incomingMovie.ReturnMovieYear()).toUtf8() +",'" + incomingMovie.ReturnDirector().toUtf8() +"','" + incomingMovie.ReturnCategory().toUtf8() +"','" + incomingMovie.ReturnVideoResolution().toUtf8() +"','" + incomingMovie.ReturnLanguage().toUtf8() +"','" + incomingMovie.ReturnVideoFormat().toUtf8() +"')";
-    bool one = query.exec(test);
-    if(!one){
-        //query.lastError();
-        query.lastError().text();
-        QString tmp = query.lastError().text();
-         std::cout << tmp.toUtf8().constData() << std::endl;
+    int result = db->MakeQuery("INSERT INTO Movies (MovieName,CDNumber,MovieYear,Director,Category,VideoResolution,Language,VideoFormat) VALUES ('" + incomingMovie.ReturnMovieName().toUtf8() +"'," + QString::number(incomingMovie.ReturnCDNumber()).toUtf8() +"," + QString::number(incomingMovie.ReturnMovieYear()).toUtf8() +",'" + incomingMovie.ReturnDirector().toUtf8() +"','" + incomingMovie.ReturnCategory().toUtf8() +"','" + incomingMovie.ReturnVideoResolution().toUtf8() +"','" + incomingMovie.ReturnLanguage().toUtf8() +"','" + incomingMovie.ReturnVideoFormat().toUtf8() +"')",query);
+
+    if(result){
          return -1;
     }
     return 0;
@@ -77,7 +78,10 @@ int MovieManager::RemoveMovieFromMovieBuffer(Movie movieToRemove){
 
 int MovieManager::RemoveMovieFromMovieDatabase(Movie movieToRemove){
    QSqlQuery query;
-   query.exec("DELETE FROM Movies WHERE Movie='"+ movieToRemove.ReturnMovieName().toUtf8() +"'");
+   if(db->MakeQuery("DELETE FROM Movies WHERE MovieName='"+ movieToRemove.ReturnMovieName().toUtf8() +"'",query) < 0){
+       return -1;
+   }
+
    if(query.next()){
             return 0;
    }
@@ -123,8 +127,7 @@ int MovieManager::FindIfMovieHasAlreadyBeenAddedToMovieBufferOrDatabase(QString 
             return -1;
         }
     }
-    query.exec("SELECT * FROM Movies WHERE Movie='"+ movieName.toUtf8() +"'");
-
+    db->MakeQuery("SELECT * FROM Movies WHERE Movie='"+ movieName.toUtf8() +"'",query);
     if(query.next()){
         if(query.value(0).toString() == movieName){
           return -2;
@@ -152,44 +155,33 @@ Movie * MovieManager::FindMovieInMovieBuffer(QString movieName){
     }
     return NULL;
 }
-/**
- * @brief MovieManager::ReturnMoviesInDatabase
- * @return
- *
- * This function was created to have one place to
- * change the  "Grab all movies records" SQL command.
- */
-QSqlQuery MovieManager::ReturnMoviesInDatabase(){
-return 0;
-}
 
-int MovieManager::ReturnAllMoviesStoredInMovieBuffer(vector<Movie> &movieArray){
-
+int MovieManager::ReturnAllMoviesStoredInMovieBuffer(std::vector<Movie> &returnArray){
+    for(unsigned int i = 0;i < moviesToAdd.size();i++){
+        returnArray.push_back(moviesToAdd[i]);
+    }
     return 0;
 }
-int MovieManager::ReturnAllMoviesStoredInDatabase(vector<Movie> &movieArray){
+int MovieManager::ReturnAllMoviesStoredInDatabase(std::vector<Movie> &returnArray){
 
     QSqlQuery query;
-    query.exec("SELECT * FROM Movies");
-
-    std::cout << "-------------------------------------------"<< std::endl;
-    while(query.next()){
-        std::string  ID = query.value(0).toString().toUtf8().constData();
-        std::string movieName = query.value(1).toString().toUtf8().constData();
-        std::string CDNumber = query.value(2).toString().toUtf8().constData();
-        std::string  MovieYear = query.value(3).toString().toUtf8().constData(); // + " " + movieName
-        std::string Director = query.value(4).toString().toUtf8().constData();
-        std::string Category = query.value(5).toString().toUtf8().constData();
-        std::string  VideoResolution = query.value(6).toString().toUtf8().constData();
-        std::string Language = query.value(7).toString().toUtf8().constData();
-        std::string videoFormat = query.value(7).toString().toUtf8().constData();
-        std::cout << "Movies in database : " + ID + " " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
-                    + " " + Language + " " + videoFormat
-                  << std::endl;
+    if(db->MakeQuery("SELECT * FROM Movies",query)){
+        return -1;
     }
-     std::cout << "-------------------------------------------"<< std::endl;
 
+    while(query.next()){
+        Movie newMovie(query.value(1).toString(),
+                       query.value(3).toInt(),
+                       query.value(4).toString(),
+                       query.value(5).toString(),
+                       query.value(6).toString(),
+                       query.value(7).toString(),
+                       query.value(8).toString()
+                       );
+        newMovie.SetCDNumber( query.value(2).toInt());
 
+        returnArray.push_back(newMovie);
+}
     return 0;
 }
 /**
@@ -199,23 +191,7 @@ int MovieManager::ReturnAllMoviesStoredInDatabase(vector<Movie> &movieArray){
  * Used to list all movie information from the Movie buffer to the standard output
  */
 void MovieManager::OutputMovieBufferToStandardOutput(){
-    std::cout << "-------------------------------------------"<< std::endl;
-    for(unsigned int i = 0;i < moviesToAdd.size();i++){
-        std::string movieName = moviesToAdd[i].ReturnMovieName().toUtf8().constData();
-
-        std::string CDNumber =   QString::number( moviesToAdd[i].ReturnCDNumber()  ).toUtf8().constData();
-        std::string MovieYear =  QString::number( moviesToAdd[i].ReturnMovieYear() ).toUtf8().constData(); // + " " + movieName
-
-        std::string Director = moviesToAdd[i].ReturnDirector().toUtf8().constData();
-        std::string Category = moviesToAdd[i].ReturnCategory().toUtf8().constData();
-        std::string VideoResolution = moviesToAdd[i].ReturnVideoResolution().toUtf8().constData();
-        std::string Language = moviesToAdd[i].ReturnLanguage().toUtf8().constData();
-        std::string videoFormat = moviesToAdd[i].ReturnVideoFormat().toUtf8().constData();
-        std::cout << "Movies in buffer: " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
-                    + " " + Language + " " + videoFormat
-                  << std::endl;
-    }
-    std::cout << "-------------------------------------------"<< std::endl;
+    OutputMoviesToStandardOutput(moviesToAdd);
 }
 
 
@@ -226,26 +202,19 @@ void MovieManager::OutputMovieBufferToStandardOutput(){
  *
  * Returns all movie records from the Database and return them to the Standard Database.
  */
-void MovieManager::OutputDatabaseMoviesToStandardOutput(QSqlQuery query){
-   /*
-    if(!one){
-        query.lastError().text();
-        QString tmp = query.lastError().text();
-        std::cout << tmp.toUtf8().constData() << std::endl;
-    }
-    */
+void MovieManager::OutputMoviesToStandardOutput(std::vector<Movie> movies){
+
     std::cout << "-------------------------------------------"<< std::endl;
-    while(query.next()){
-        std::string  ID = query.value(0).toString().toUtf8().constData();
-        std::string movieName = query.value(1).toString().toUtf8().constData();
-        std::string CDNumber = query.value(2).toString().toUtf8().constData();
-        std::string  MovieYear = query.value(3).toString().toUtf8().constData(); // + " " + movieName
-        std::string Director = query.value(4).toString().toUtf8().constData();
-        std::string Category = query.value(5).toString().toUtf8().constData();
-        std::string  VideoResolution = query.value(6).toString().toUtf8().constData();
-        std::string Language = query.value(7).toString().toUtf8().constData();
-        std::string videoFormat = query.value(7).toString().toUtf8().constData();
-        std::cout << "Movies in database : " + ID + " " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
+    for(unsigned int i = 0;i < movies.size();i++){
+        std::string movieName = movies[i].ReturnMovieName().toUtf8().constData();
+        std::string CDNumber = QString::number(movies[i].ReturnCDNumber()).toUtf8().constData();
+        std::string  MovieYear = QString::number(movies[i].ReturnMovieYear()).toUtf8().constData(); // + " " + movieName
+        std::string Director = movies[i].ReturnDirector().toUtf8().constData();
+        std::string Category = movies[i].ReturnCategory().toUtf8().constData();
+        std::string VideoResolution = movies[i].ReturnVideoResolution().toUtf8().constData();
+        std::string Language = movies[i].ReturnLanguage().toUtf8().constData();
+        std::string videoFormat = movies[i].ReturnVideoFormat().toUtf8().constData();
+        std::cout << "Movies in database : " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
                     + " " + Language + " " + videoFormat
                   << std::endl;
     }
@@ -254,5 +223,6 @@ void MovieManager::OutputDatabaseMoviesToStandardOutput(QSqlQuery query){
 
 int MovieManager::ClearAllMoviesFromMovieBuffer(){
     moviesToAdd.clear();
+    return 0;
 }
 

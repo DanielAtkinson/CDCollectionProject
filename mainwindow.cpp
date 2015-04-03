@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+#include "moviemanager.h"
+
 
 /* Project Concepts:
  *      movie buffer : This is the list of movies that are being prepared
@@ -24,7 +26,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    databaseConnection("./MovieDatabase.db")
+    databaseConnection("./MovieDatabase.db"),
+    movieManager(&databaseConnection)
 {
     //
     ui->setupUi(this);
@@ -43,8 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->tableWidget->setColumnWidth(1,300);
             ui->tableWidget->setColumnWidth(4,200);
 
-
-            //movieManager.OutputDatabaseMoviesToStandardOutput(movieManager.ReturnMoviesInDatabase());
+    vector<Movie> movieCollection;
+    movieManager.ReturnAllMoviesStoredInDatabase(movieCollection);
+    movieManager.OutputMoviesToStandardOutput(movieCollection);
 }
 /**
  * Will close the window aswel as close the database connection.
@@ -143,7 +147,7 @@ void MainWindow::TEST_BUTTON(QString text)
 void MainWindow::on_AddMovieToCD_clicked()
 {
     //Check to see if movie have already been added.
-    if(movieManager.FindIfMovieHasAlreadyBeenAdded(ui->TB_MovieName->text()) < 0){
+    if(movieManager.FindIfMovieHasAlreadyBeenAddedToMovieBufferOrDatabase(ui->TB_MovieName->text()) < 0){
         ui->statusBar->showMessage("Movie:" + ui->TB_MovieName->text().toUtf8() +" has been already Added");
         return;
     }
@@ -182,19 +186,11 @@ void MainWindow::FlushMovieBufferToDatabase()
     QSqlQuery query;
 
     int cDNumber = 0;
-    bool one = query.exec("SELECT MAX(CDNumber) AS CDNumber FROM Movies");
+    databaseConnection.MakeQuery("SELECT MAX(CDNumber) AS CDNumber FROM Movies",query);
 
-    if(!one){//Error checking for the query.
-        //query.lastError();
-        query.lastError().text();
-        QString tmp = query.lastError().text();
-         std::cout << tmp.toUtf8().constData() << std::endl;
-    }
-    else{
-        if(query.next()){
-            std::cout << query.value(0).toString().toUtf8().constData() << std::endl;
-            cDNumber = query.value(0).toInt() + 1;
-        }
+    if(query.next()){
+          std::cout << query.value(0).toString().toUtf8().constData() << std::endl;
+          cDNumber = query.value(0).toInt() + 1;
     }
 
     movieManager.FlushMovieBufferToMovieDatabase(cDNumber);

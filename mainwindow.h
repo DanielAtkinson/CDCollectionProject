@@ -30,9 +30,11 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    MovieManager movieManager;
-    QSqlDatabase db;
     DBmanager databaseConnection;
+    MovieManager movieManager;
+
+    QSqlDatabase db;//Currently kept for legacy reasons. Will remove soon.
+
     int CheckIfMovieHasBeenAlreadyAdded(QString);
 
 private slots:

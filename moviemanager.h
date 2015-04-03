@@ -5,15 +5,17 @@
 #include <QSqlDatabase>
 #include <vector>
 #include "movie.h"
+#include "dbmanager.h"
 
 
 class MovieManager
 {
 private:
     std::vector<Movie> moviesToAdd;
+    DBmanager * db = NULL; //Minor hack to prevent the object being made. I just want a pointer to it.
 
 public:
-    MovieManager();
+    MovieManager(DBmanager * databaseBeingUsed);
 
     int AddMovieToMovieBuffer(Movie movieToAdd);
     int AddMovieToDatabase(Movie incomingMovie);
@@ -23,11 +25,14 @@ public:
     int RemoveMovieFromMovieDatabase(Movie movieToRemove);
     int ClearAllMoviesFromMovieBuffer();
 
+    int ReturnAllMoviesStoredInMovieBuffer(std::vector<Movie>& );
+    int ReturnAllMoviesStoredInDatabase(std::vector<Movie>& );
+
     int FindIfMovieHasAlreadyBeenAddedToMovieBufferOrDatabase(QString movieName);
     Movie * FindMovieInMovieBuffer(QString movieName);
 
     void OutputMovieBufferToStandardOutput();
-    void OutputDatabaseMoviesToStandardOutput(QSqlQuery query);
+    void OutputMoviesToStandardOutput(std::vector<Movie>);
 
     int ListMoviesInDatabase();
 
