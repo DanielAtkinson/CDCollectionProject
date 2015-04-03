@@ -23,6 +23,28 @@ int MovieManager::AddMovieToMovieBuffer(Movie movieToAdd){
     return 0;
 }
 /**
+ * @brief Add a single movie to the database
+ * @param incomingMovie
+ * @return Error message. 0 Good, -1 Query did not
+ * complete successful.
+ *
+ *
+ */
+int MovieManager::AddMovieToDatabase(Movie incomingMovie){
+
+    QSqlQuery query;
+    QString test = "INSERT INTO Movies (MovieName,CDNumber,MovieYear,Director,Category,VideoResolution,Language,VideoFormat) VALUES ('" + incomingMovie.ReturnMovieName().toUtf8() +"'," + QString::number(incomingMovie.ReturnCDNumber()).toUtf8() +"," + QString::number(incomingMovie.ReturnMovieYear()).toUtf8() +",'" + incomingMovie.ReturnDirector().toUtf8() +"','" + incomingMovie.ReturnCategory().toUtf8() +"','" + incomingMovie.ReturnVideoResolution().toUtf8() +"','" + incomingMovie.ReturnLanguage().toUtf8() +"','" + incomingMovie.ReturnVideoFormat().toUtf8() +"')";
+    bool one = query.exec(test);
+    if(!one){
+        //query.lastError();
+        query.lastError().text();
+        QString tmp = query.lastError().text();
+         std::cout << tmp.toUtf8().constData() << std::endl;
+         return -1;
+    }
+    return 0;
+}
+/**
  * @brief Removes movie from buffer of films to be added
  *          to the database
  *
@@ -79,28 +101,7 @@ int MovieManager::FlushMovieBufferToMovieDatabase(int cDNumber){
     return 0;
 }
 
-/**
- * @brief Add a single movie to the database
- * @param incomingMovie
- * @return Error message. 0 Good, -1 Query did not
- * complete successful.
- *
- *
- */
-int MovieManager::AddMovieToDatabase(Movie incomingMovie){
 
-    QSqlQuery query;
-    QString test = "INSERT INTO Movies (MovieName,CDNumber,MovieYear,Director,Category,VideoResolution,Language,VideoFormat) VALUES ('" + incomingMovie.ReturnMovieName().toUtf8() +"'," + QString::number(incomingMovie.ReturnCDNumber()).toUtf8() +"," + QString::number(incomingMovie.ReturnMovieYear()).toUtf8() +",'" + incomingMovie.ReturnDirector().toUtf8() +"','" + incomingMovie.ReturnCategory().toUtf8() +"','" + incomingMovie.ReturnVideoResolution().toUtf8() +"','" + incomingMovie.ReturnLanguage().toUtf8() +"','" + incomingMovie.ReturnVideoFormat().toUtf8() +"')";
-    bool one = query.exec(test);
-    if(!one){
-        //query.lastError();
-        query.lastError().text();
-        QString tmp = query.lastError().text();
-         std::cout << tmp.toUtf8().constData() << std::endl;
-         return -1;
-    }
-    return 0;
-}
 /**
  * @brief Check if movie has already been added.
  * @param movieName
@@ -114,7 +115,7 @@ int MovieManager::AddMovieToDatabase(Movie incomingMovie){
  * search the Movie database for a match.
  */
 
-int MovieManager::FindIfMovieHasAlreadyBeenAdded(QString movieName){
+int MovieManager::FindIfMovieHasAlreadyBeenAddedToMovieBufferOrDatabase(QString movieName){
     QSqlQuery query;
 
     for(unsigned int i = 0;i < moviesToAdd.size();i++){
@@ -159,9 +160,37 @@ Movie * MovieManager::FindMovieInMovieBuffer(QString movieName){
  * change the  "Grab all movies records" SQL command.
  */
 QSqlQuery MovieManager::ReturnMoviesInDatabase(){
+return 0;
+}
+
+int MovieManager::ReturnAllMoviesStoredInMovieBuffer(vector<Movie> &movieArray){
+
+    return 0;
+}
+int MovieManager::ReturnAllMoviesStoredInDatabase(vector<Movie> &movieArray){
+
     QSqlQuery query;
     query.exec("SELECT * FROM Movies");
-    return query;
+
+    std::cout << "-------------------------------------------"<< std::endl;
+    while(query.next()){
+        std::string  ID = query.value(0).toString().toUtf8().constData();
+        std::string movieName = query.value(1).toString().toUtf8().constData();
+        std::string CDNumber = query.value(2).toString().toUtf8().constData();
+        std::string  MovieYear = query.value(3).toString().toUtf8().constData(); // + " " + movieName
+        std::string Director = query.value(4).toString().toUtf8().constData();
+        std::string Category = query.value(5).toString().toUtf8().constData();
+        std::string  VideoResolution = query.value(6).toString().toUtf8().constData();
+        std::string Language = query.value(7).toString().toUtf8().constData();
+        std::string videoFormat = query.value(7).toString().toUtf8().constData();
+        std::cout << "Movies in database : " + ID + " " + movieName + " " + CDNumber + " " + MovieYear + " " + Director + " " + Category + " " + VideoResolution
+                    + " " + Language + " " + videoFormat
+                  << std::endl;
+    }
+     std::cout << "-------------------------------------------"<< std::endl;
+
+
+    return 0;
 }
 /**
  * @brief MovieManager::OutputMovieBufferToStandardOutput
@@ -188,6 +217,8 @@ void MovieManager::OutputMovieBufferToStandardOutput(){
     }
     std::cout << "-------------------------------------------"<< std::endl;
 }
+
+
 /**
  * @brief MovieManager::OutputDatabaseMoviesToStandardOutput
  * @param query

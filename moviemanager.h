@@ -23,9 +23,8 @@ public:
     int RemoveMovieFromMovieDatabase(Movie movieToRemove);
     int ClearAllMoviesFromMovieBuffer();
 
-    int FindIfMovieHasAlreadyBeenAdded(QString movieName);
+    int FindIfMovieHasAlreadyBeenAddedToMovieBufferOrDatabase(QString movieName);
     Movie * FindMovieInMovieBuffer(QString movieName);
-    QSqlQuery ReturnMoviesInDatabase();
 
     void OutputMovieBufferToStandardOutput();
     void OutputDatabaseMoviesToStandardOutput(QSqlQuery query);

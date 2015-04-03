@@ -23,19 +23,13 @@
  */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    databaseConnection("./MovieDatabase.db")
 {
     //
     ui->setupUi(this);
 
     //Setup Movie container
-
-
-    //Setup Database
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("./MovieDatabase.db");
-    db.open();
-    QSqlQuery query;
 
     //Setup menu actions to trigger layout changes
     connect(ui->actionFind_CD, SIGNAL( triggered() ) , this, SLOT( ChangePageToFindCDPage())  );
@@ -45,57 +39,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->BUTTON_FlushMoviesToDatabase, SIGNAL( clicked() ) , this, SLOT( FlushMovieBufferToDatabase() ));
 
     //BUTTON_FlushMoviesToDatabase
-
-    bool ko = query.exec("CREATE TABLE Movies("
-                         "MovieID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                         "MovieName varchar(255) NOT NULL,"
-                         "CDNumber INTEGER NOT NULL,"
-                         "MovieYear INTEGER,"
-                         "Director varchar(255),"
-                         "Category varchar(255),"
-                         "VideoResolution varchar(255),"
-                         "Language varchar(255),"
-                         "VideoFormat varchar(255)"
-                         ")");
-
-
-
-            if(!ko){
-                //query.lastError();
-                query.lastError().text();
-                QString tmp = query.lastError().text();
-                 std::cout << tmp.toUtf8().constData() << std::endl;
-            }
-            else{
-                Movie newMovie("Hunt For Red October",1980,"Daniel Atkinson","Drama","1080","English","mp4");
-                movieManager.AddMovieToDatabase(newMovie);
-
-            /*
-                one = query.exec("INSERT INTO Persons (Movie) "
-                "VALUES ('Daniel')");
-                if(!one){
-                    //query.lastError();
-                    query.lastError().text();
-                    QString tmp = query.lastError().text();
-                     std::cout << tmp.toUtf8().constData() << std::endl;
-                }
-                one = query.exec("INSERT INTO Persons (Movie) "
-                "VALUES ('Jack')");
-*/
-            }
-            //ui->tableWidget->rowCount()
-
+    //Cannot find how to increase the size fo the header columns so size has been increased here.
             ui->tableWidget->setColumnWidth(1,300);
             ui->tableWidget->setColumnWidth(4,200);
 
 
-            movieManager.OutputDatabaseMoviesToStandardOutput(movieManager.ReturnMoviesInDatabase());
-        //ui->MatchedMovies
-        //
-        //
-
-
-
+            //movieManager.OutputDatabaseMoviesToStandardOutput(movieManager.ReturnMoviesInDatabase());
 }
 /**
  * Will close the window aswel as close the database connection.
@@ -105,20 +54,6 @@ MainWindow::~MainWindow()
     db.close();
     delete ui;
 }
-/*
-void MainWindow::on_pushButton_5_clicked()
-{
-    QLabel *label2 =new QLabel("text2");
-    QVBoxLayout *layout2 = new QVBoxLayout;
-    layout2->addWidget(new NewForm);
-    NewForm * tmpa = new NewForm;
-    delete ui->widget_2->layout();
-    ui->widget_2->setLayout(layout2);
-*/
-
-    //ui->stackedWidget->setCurrentIndex(1);
-//}
-
 /**
  * @brief FindCDPage Changer
  */
@@ -128,15 +63,12 @@ void MainWindow::ChangePageToFindCDPage()
 
     QSqlQuery query;
     int currentRow = 0;
-    bool one = query.exec("SELECT * FROM Movies");
-    if(!one){
-        //query.lastError();
-        query.lastError().text();
-        QString tmp = query.lastError().text();
-        std::cout << tmp.toUtf8().constData() << std::endl;
-        return;
-    }
 
+    //Basic error catching.
+    if(databaseConnection.MakeQuery("SELECT * FROM Movies",query) < 0){return;}
+
+
+    //Add each returned result to the table containing the results from the Query.
     while(query.next()){
         ui->tableWidget->insertRow(currentRow);
         for(int i = 0;i <= 9; i++){
@@ -270,9 +202,10 @@ void MainWindow::FlushMovieBufferToDatabase()
     movieManager.ClearAllMoviesFromMovieBuffer();
 
 
-    movieManager.OutputDatabaseMoviesToStandardOutput(
-                    movieManager.ReturnMoviesInDatabase()
-                );
+    //movieManager.OutputDatabaseMoviesToStandardOutput(
+    //                movieManager.ReturnMoviesInDatabase()
+    //            );
+
     movieManager.OutputMovieBufferToStandardOutput();
 
 

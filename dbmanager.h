@@ -15,9 +15,9 @@ private:
     QSqlDatabase db; //SQLite Driver
 
 public:
-    DBmanager(std::string DatabaseName);
+    DBmanager(QString DatabaseName);
     ~DBmanager();
-    int MakeQuery(QString incomingQuery,QSqlQuery& query);
+    int MakeQuery(QString incomingQuery,QSqlQuery &query);
 };
 
 #endif // DBMANAGER_H

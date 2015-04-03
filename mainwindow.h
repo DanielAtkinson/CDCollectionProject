@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <vector>
 #include "moviemanager.h"
+#include "dbmanager.h"
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -24,17 +25,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+//
 public slots:
-
-    //void on_pushButton_5_clicked();
 
 private:
     Ui::MainWindow *ui;
     MovieManager movieManager;
     QSqlDatabase db;
-    QString MovieQuery;
-
+    DBmanager databaseConnection;
     int CheckIfMovieHasBeenAlreadyAdded(QString);
 
 private slots:
